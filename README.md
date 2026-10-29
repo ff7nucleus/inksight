@@ -38,7 +38,30 @@ InkSight is a web application that reads handwritten letters and digits. Draw a 
 
 ## Results
 
-Test-set accuracy, precision, recall, F1 scores and the confusion matrix are reported in Section 5 of the notebook (`InkSight_Training.ipynb`).
+Both models were scored on the 18,800 EMNIST Balanced test images, which neither model saw during training.
+
+| Model | Parameters | Test Accuracy | Macro F1 |
+|---|---|---|---|
+| Baseline (2-layer fully connected) | 213,039 | 82.41% | 0.8208 |
+| **InkNet CNN** | **880,527** | **88.94%** | **0.8879** |
+
+**Inference time:** about 0.006 seconds per image on CPU (0.0057 s averaged over 100 predictions, including preprocessing).
+
+**Where the model struggles:** nearly all errors fall on characters that look alike when handwritten. The most frequent mix-ups on the test set:
+
+| True | Predicted as | Times |
+|---|---|---|
+| L | 1 | 184 |
+| F | f | 157 |
+| O | 0 | 143 |
+| q | 9 | 124 |
+| I | 1 | 110 |
+
+The strongest classes (W, 3 and X) reach an F1 score of 0.99, while the weakest (L at 0.51, q at 0.60, 1 at 0.61) are exactly the ambiguous pairs above.
+
+![Training curves](figures/training_curves.png)
+
+![Confusion matrix](figures/confusion_matrix.png)
 
 ## Repository Contents
 
